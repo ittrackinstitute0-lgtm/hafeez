@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KitabGhar (کتاب گھر) - Online Book Store</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="top-bar">
+        <div class="info-pills">
+            <span class="info-pill"><i class="fa-solid fa-truck-fast"></i> Free Delivery nationwide on orders above Rs. 1,500</span>
+            <span class="info-pill" style="display: none;" id="top-phone"><i class="fa-brands fa-whatsapp"></i> +92 300 1234567</span>
+        </div>
+        <div class="top-bar-right">
+            <a href="admin.html" class="admin-link">
+                <i class="fa-solid fa-lock"></i> Admin Panel
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-book-open-reader"></i>
+                <div>
+                    KitabGhar <span class="urdu">کتاب گھر</span>
+                </div>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="nav-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search books by title, author, or category...">
+            </div>
+
+            <!-- Actions -->
+            <div class="nav-actions">
+                <button class="btn-track" id="openTrackBtn" title="Track existing order">
+                    <i class="fa-solid fa-location-dot"></i> Track Order
+                </button>
+
+                <button class="cart-btn" id="openCartBtn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Cart</span>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUPABASE STATUS BANNER -->
+    <div class="db-status-bar" id="dbStatusBar">
+        <div class="db-status-container">
+            <div class="db-status-indicator" id="dbStatusText">
+                <span class="dot amber"></span>
+                <span>Connecting to Supabase...</span>
+            </div>
+            <a href="admin.html#setup" id="dbSetupLink" style="display:none; color: var(--primary); font-weight:700; text-decoration:underline;">
+                <i class="fa-solid fa-database"></i> Setup Database Tables in 1-Click
+            </a>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-sparkles"></i> Pakistan's Premier Online Bookstore
+                </div>
+                <h1 class="hero-title">
+                    کتابوں کی دنیا، <span>آپ کی دہلیز پر</span>
+                </h1>
+                <p class="hero-desc">
+                    Explore timeless Urdu literature, authentic Islamic treasures, motivational bestsellers, and academic books. Order directly online with Cash on Delivery across Pakistan.
+                </p>
+                <div class="hero-cta">
+                    <a href="#catalog" class="btn-primary">
+                        <i class="fa-solid fa-bag-shopping"></i> Explore Books
+                    </a>
+                    <button class="btn-outline-light" id="heroTrackBtn">
+                        <i class="fa-solid fa-magnifying-glass"></i> Track Your Order
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-showcase">
+                <div class="hero-book-stack">
+                    <div class="hero-book-card" style="background-image: url('https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80');"></div>
+                    <div class="hero-book-card" style="background-image: url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=600&auto=format&fit=crop&q=80');"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BADGES -->
+    <section class="features-bar">
+        <div class="features-container">
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                <div class="feature-text">
+                    <h4>Cash on Delivery</h4>
+                    <p>Pay when book arrives at door</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-truck"></i></div>
+                <div class="feature-text">
+                    <h4>Free Shipping</h4>
+                    <p>On all orders above Rs. 1,500</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
+                <div class="feature-text">
+                    <h4>100% Original</h4>
+                    <p>Genuine & pristine editions</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+                <div class="feature-text">
+                    <h4>WhatsApp Support</h4>
+                    <p>Quick assistance anytime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN BOOK STORE CATALOG -->
+    <main class="main-content" id="catalog">
+        <div class="section-header">
+            <div>
+                <h2>Featured Books (نمایاں کتب)</h2>
+                <p>Hand-picked collection of top-rated novels, guides, and religious masterpieces</p>
+            </div>
+            <div>
+                <select id="sortSelect" class="sort-select">
+                    <option value="featured">Featured First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="name">Title: A to Z</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="catalog-controls">
+            <div class="category-chips" id="categoryChips">
+                <button class="chip-btn active" data-category="all">All Books</button>
+                <button class="chip-btn" data-category="Urdu Adab">اردو ادب (Urdu Adab)</button>
+                <button class="chip-btn" data-category="Islamic">اسلامی کتب (Islamic)</button>
+                <button class="chip-btn" data-category="Self-Help">Self-Help</button>
+                <button class="chip-btn" data-category="Finance & Business">Finance & Business</button>
+                <button class="chip-btn" data-category="Fiction">Fiction</button>
+            </div>
+        </div>
+
+        <!-- Books Grid Container -->
+        <div class="books-grid" id="booksGrid">
+            <!-- Dynamically populated by app.js -->
+            <div class="no-results">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <h3>Loading Book Store...</h3>
+                <p>Retrieving catalog from database</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div class="drawer-backdrop" id="cartBackdrop"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-bag-shopping"></i> Shopping Cart (<span id="cartDrawerCount">0</span>)</h3>
+            <button class="btn-close" id="closeCartBtn">&times;</button>
+        </div>
+
+        <div class="drawer-body" id="cartItemsList">
+            <!-- Cart items injected here -->
+        </div>
+
+        <div class="drawer-footer" id="cartFooter">
+            <div class="promo-box">
+                <input type="text" id="promoInput" placeholder="Promo code (KITAB10)">
+                <button id="applyPromoBtn">Apply</button>
+            </div>
+
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="cartSubtotal">Rs. 0</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery Charges:</span>
+                <span id="cartShipping">Rs. 0</span>
+            </div>
+            <div class="summary-row" id="discountRow" style="display: none; color: var(--success);">
+                <span>Discount (Promo):</span>
+                <span id="cartDiscount">-Rs. 0</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total Amount:</span>
+                <span id="cartTotal">Rs. 0</span>
+            </div>
+
+            <button class="btn-checkout" id="checkoutBtn" style="margin-top: 14px;">
+                <span>Proceed to Checkout (آرڈر کریں)</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- CHECKOUT MODAL -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-truck-ramp-box"></i> Complete Your Order (آرڈر فارم)</h3>
+                <button class="btn-close" id="closeCheckoutBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Full Name <span class="req">*</span></label>
+                            <input type="text" id="custName" class="form-input" placeholder="e.g. Muhammad Asif" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone / WhatsApp <span class="req">*</span></label>
+                            <input type="tel" id="custPhone" class="form-input" placeholder="e.g. 03001234567" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">City <span class="req">*</span></label>
+                            <select id="custCity" class="form-select" required>
+                                <option value="">Select City</option>
+                                <option value="Karachi">Karachi (کراچی)</option>
+                                <option value="Lahore">Lahore (لاہور)</option>
+                                <option value="Islamabad">Islamabad (اسلام آباد)</option>
+                                <option value="Rawalpindi">Rawalpindi (راولپنڈی)</option>
+                                <option value="Faisalabad">Faisalabad (فیصل آباد)</option>
+                                <option value="Multan">Multan (ملتان)</option>
+                                <option value="Peshawar">Peshawar (پشاور)</option>
+                                <option value="Quetta">Quetta (کوئٹہ)</option>
+                                <option value="Gujranwala">Gujranwala (گوجرانوالہ)</option>
+                                <option value="Sialkot">Sialkot (سیالکوٹ)</option>
+                                <option value="Other">Other City / District</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address (Optional)</label>
+                            <input type="email" id="custEmail" class="form-input" placeholder="name@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Complete Delivery Address <span class="req">*</span></label>
+                        <textarea id="custAddress" class="form-textarea" rows="2" placeholder="House/Flat number, Street name, Near landmark..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Payment Method</label>
+                        <div class="payment-options">
+                            <label class="payment-label selected">
+                                <input type="radio" name="paymentMethod" value="Cash on Delivery" checked>
+                                <span class="pay-text"><i class="fa-solid fa-hand-holding-dollar"></i> Cash on Delivery (COD)</span>
+                            </label>
+                            <label class="payment-label">
+                                <input type="radio" name="paymentMethod" value="JazzCash / EasyPaisa">
+                                <span class="pay-text"><i class="fa-solid fa-mobile-screen"></i> JazzCash / EasyPaisa</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Order Notes (Optional)</label>
+                        <input type="text" id="custNotes" class="form-input" placeholder="Any special instructions for courier">
+                    </div>
+
+                    <div class="receipt-summary" style="margin-top: 14px; margin-bottom: 14px;">
+                        <div class="receipt-row">
+                            <span>Order Total:</span>
+                            <strong id="checkoutTotalAmount" style="color:var(--primary); font-size: 1.1rem;">Rs. 0</strong>
+                        </div>
+                        <div class="receipt-row" style="font-size: 0.8rem; color: var(--slate-500); margin-top: 4px;">
+                            <span>Payment: Payable upon parcel delivery</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-checkout" id="submitOrderBtn">
+                        <i class="fa-solid fa-check-circle"></i> Place Order Now (آرڈر کنفرم کریں)
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER SUCCESS MODAL -->
+    <div class="modal-overlay" id="orderSuccessModal">
+        <div class="modal-box">
+            <div class="modal-body success-screen">
+                <div class="success-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h2>Shukriya! Order Placed Successfully</h2>
+                <p style="color: var(--slate-600); margin-top: 6px;">
+                    آپ کا آرڈر موصول ہو چکا ہے۔ ہم جلد ہی آپ کو پارسل روانہ کریں گے۔
+                </p>
+
+                <div class="order-badge-pill" id="successOrderId">ORD-00000</div>
+
+                <div class="receipt-summary" id="successOrderDetails">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn-primary" id="trackThisOrderBtn">
+                        <i class="fa-solid fa-location-dot"></i> Track Status
+                    </button>
+                    <button class="btn-outline-light" style="color:var(--dark); border-color:var(--slate-300);" id="closeSuccessBtn">
+                        Continue Shopping
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER TRACKING MODAL -->
+    <div class="modal-overlay" id="trackingModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-truck"></i> Live Order Tracking (آرڈر ٹریکنگ)</h3>
+                <button class="btn-close" id="closeTrackModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input type="text" id="trackSearchInput" class="form-input" placeholder="Enter Order ID (e.g. ORD-12345) or Phone number">
+                    <button class="btn-primary" id="searchOrderBtn" style="padding: 10px 18px;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
+                <div id="trackingResult">
+                    <p style="text-align: center; color: var(--slate-500); padding: 30px 10px;">
+                        Enter your Order ID (given during checkout) or your mobile number to view status.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK VIEW MODAL -->
+    <div class="modal-overlay" id="quickViewModal">
+        <div class="modal-box" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 id="qvTitle">Book Details</h3>
+                <button class="btn-close" id="closeQuickViewBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="quick-view-content">
+                    <div>
+                        <img id="qvImage" src="" alt="Book Cover" class="quick-view-img">
+                    </div>
+                    <div>
+                        <span class="book-category" id="qvCategory">Category</span>
+                        <h2 style="font-size: 1.4rem; margin: 4px 0 8px;" id="qvBookTitle">Title</h2>
+                        <p style="color: var(--slate-600); font-size: 0.92rem; margin-bottom: 10px;">
+                            Author: <strong id="qvAuthor">Author Name</strong>
+                        </p>
+                        <div class="book-rating" style="margin-bottom: 12px;">
+                            <i class="fa-solid fa-star"></i>
+                            <span id="qvRating">4.9</span> (Authentic Edition)
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <span class="current-price" id="qvPrice" style="font-size: 1.5rem;">Rs. 0</span>
+                            <span class="old-price" id="qvOldPrice" style="font-size: 1rem; margin-left: 8px;">Rs. 0</span>
+                        </div>
+                        <p id="qvDescription" style="font-size: 0.88rem; color: var(--slate-600); line-height: 1.6; margin-bottom: 20px;">
+                            Description goes here.
+                        </p>
+
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <div class="qty-control" style="padding: 4px;">
+                                <button class="qty-btn" id="qvDecQty">-</button>
+                                <span class="qty-val" id="qvQtyVal">1</span>
+                                <button class="qty-btn" id="qvIncQty">+</button>
+                            </div>
+                            <button class="btn-primary" id="qvAddToCartBtn" style="flex: 1; justify-content: center;">
+                                <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 14px;">
+                    <i class="fa-solid fa-book-open-reader" style="color: var(--accent);"></i>
+                    <span>KitabGhar</span>
+                </div>
+                <p>
+                    KitabGhar is Pakistan's leading online bookstore delivering original literature, Islamic books, motivational bestsellers, and academic publications right to your doorstep.
+                </p>
+                <div style="display: flex; gap: 12px; font-size: 1.2rem; color: #cbd5e1;">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="#catalog" onclick="filterCategory('Urdu Adab')">اردو ادب (Urdu Literature)</a></li>
+                    <li><a href="#catalog" onclick="filterCategory('Islamic')">اسلامی کتب (Islamic Books)</a></li>
+                    <li><a href="#catalog" onclick="filterCategory('Self-Help')">Self-Help & Productivity</a></li>
+                    <li><a href="#catalog" onclick="filterCategory('Finance & Business')">Finance & Business</a></li>
+                    <li><a href="#catalog" onclick="filterCategory('Fiction')">Fiction & Novels</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Customer Service</h4>
+                <ul class="footer-links">
+                    <li><a href="javascript:void(0)" onclick="openTrackModal()">Track Your Order</a></li>
+                    <li><a href="javascript:void(0)" onclick="openCart()">View Cart</a></li>
+                    <li><a href="javascript:void(0)">Shipping & Returns</a></li>
+                    <li><a href="javascript:void(0)">Payment Methods</a></li>
+                    <li><a href="admin.html">Staff & Admin Login</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fa-solid fa-phone"></i> +92 300 1234567</p>
+                <p><i class="fa-solid fa-envelope"></i> orders@kitabghar.pk</p>
+                <p><i class="fa-solid fa-map-pin"></i> Urdu Bazar, Lahore & Karachi, Pakistan</p>
+                <p><i class="fa-solid fa-clock"></i> Mon - Sat: 9:00 AM - 9:00 PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2026 KitabGhar (کتاب گھر). All rights reserved. Powered by Supabase Backend.</span>
+            <span>Made with <i class="fa-solid fa-heart" style="color:var(--danger)"></i> for Book Lovers</span>
+        </div>
+    </footer>
+
+    <!-- Supabase CDN Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Configurations & Logic -->
+    <script src="supabase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
